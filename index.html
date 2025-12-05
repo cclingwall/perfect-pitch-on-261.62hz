@@ -81,9 +81,16 @@
 
     btn.addEventListener('click', () => {
       if (isPlaying) {
-        console.log("Stopping...";
+        player.pause();
+        player.currentTime = 0;
+        btn.innerText = "Play";
+        btn.classList.remove('active');
+        isPlaying = False;
       } else {
-        console.log("Starting...");
+        player.play();
+        btn.innerText = "stop";
+        btn.classList.add('active');
+        isPlaying = True;
       }
     });
         
