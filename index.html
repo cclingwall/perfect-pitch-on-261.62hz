@@ -72,6 +72,12 @@
             }
             return new Blob([view], { type: 'audio/wav' });
         }
+    setTimeout(() => {
+      const blob = createSoundFile();
+      const url = URL.createObjectURL(blob);
+      player.src = url;
+      btn.innerText = "Play";
+    }, 100);
   </script>
 </body>
 </html>
