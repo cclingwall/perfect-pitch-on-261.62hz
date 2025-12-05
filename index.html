@@ -45,8 +45,8 @@
       const duration = 180;
       const numSamples = sampleRate * duration;
       const buffer = new ArrayBuffer(44 + numSamples * 2);
-      const view = new DataView(buffer):
-      const frequency 261.6256;
+      const view = new DataView(buffer);
+      const frequency = 261.6256;
 
       const writeString = (v, o, s) => s.split('').forEach((c, i) => v.setUint8(o + i, c.charCodeAt(0)));
 
@@ -85,12 +85,12 @@
         player.currentTime = 0;
         btn.innerText = "Play";
         btn.classList.remove('active');
-        isPlaying = False;
+        isPlaying = false;
       } else {
         player.play();
-        btn.innerText = "stop";
+        btn.innerText = "Stop";
         btn.classList.add('active');
-        isPlaying = True;
+        isPlaying = true;
       }
     });
         
