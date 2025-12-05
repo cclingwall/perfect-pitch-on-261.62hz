@@ -34,5 +34,44 @@
 <body>
   <button id="myButton">Loading...</button>
   <audio id="myPlayer" loop playsinline></audio>
+  <script>
+    const btn = document.getElementById('myButton');
+    const player = document.getElementById('myPlayer');
+    let isPlaying = false
+
+    // lets make the sound generator
+    function createSoundFile() {
+      const sampleRate = 44100;
+      const duration = 180;
+      const numSamples = sampleRate * duration;
+      const buffer = new ArrayBuffer(44 + numSamples * 2);
+      const view = new DataView(buffer):
+      const frequency 261.6256;
+
+      const writeString = (v, o, s) => s.split('').forEach((c, i) => v.setUint8(o + i, c.charCodeAt(0)));
+
+      writeString(view, 0, 'RIFF'); view.setUint32(4, 36 + numSamples * 2, true);
+      writeString(view, 8, 'WAVE'); writeString(view, 12, 'fmt ');
+      view.setUint32(16, 16, true); view.setUint16(20, 1, true);
+      view.setUint16(22, 1, true); view.setUint32(24, sampleRate, true);
+      view.setUint32(28, sampleRate * 2, true); view.setUint16(32, 2, true);
+      view.setUint16(34, 16, true); writeString(view, 36, 'data');
+      view.setUint32(40, numSamples * 2, true);
+
+      for (let i = 0; i < numSamples; i++) {
+                const t = i / sampleRate;
+                const raw = Math.sin(2 * Math.PI * frequency * t);
+                
+                // Fade In/Out logic to prevent clicking noises
+                let vol = 0.5;
+                if (i < 22000) vol = (i / 22000) * 0.5;
+                if (i > numSamples - 22000) vol = ((numSamples - i) / 22000) * 0.5;
+                
+                const sample = raw * vol;
+                view.setInt16(44 + i * 2, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+            }
+            return new Blob([view], { type: 'audio/wav' });
+        }
+  </script>
 </body>
 </html>
